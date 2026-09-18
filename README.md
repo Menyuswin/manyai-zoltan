@@ -28,6 +28,7 @@ A `file://` megnyitás is működik.
 
 - `index.html` — az oldal teljes tartalma és stílusa
 - `photo.jpg` — profilfotó
+- `header.jpg` — teljes szélességű fejléc-banner ("Dialogus aperit portas")
 
 ## Produktumok
 
