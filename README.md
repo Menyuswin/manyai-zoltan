@@ -7,6 +7,13 @@ időjárás-ügyelet, névnapnaptár) egy helyen.
 Nincs build-lépés, nincs függőség: sima HTML + CSS, a fotó külön fájlként
 mellékelve.
 
+A jobb oldali sávban futó "Sajtófigyelés" widget kliensoldali JavaScripttel,
+oldalbetöltéskor kérdezi le 6 hírportál (Index, Telex, HVG, 444, 24.hu,
+Portfolio) RSS-csatornáját a rss2json.com ingyenes, kulcs nélküli
+proxyján keresztül (a böngészők CORS-korlátozása miatt közvetlenül nem
+olvashatók), és 30 percig gyorsítótárazza az eredményt a böngésző
+localStorage-ában.
+
 ## Megnyitás
 
 ```bash

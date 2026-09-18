@@ -382,6 +382,143 @@
     .fade-up{animation:fadeUp .6s ease both;}
     @keyframes fadeUp{from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:none;}}
   }
+
+  /* press widget */
+  .press-toggle{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    z-index:40;
+    display:none;
+    align-items:center;
+    gap:8px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem;
+    letter-spacing:0.03em;
+    text-transform:uppercase;
+    color:var(--accent-ink);
+    background:var(--accent);
+    border:none;
+    padding:12px 16px;
+    border-radius:999px;
+    box-shadow:0 8px 20px -8px rgba(0,0,0,0.4);
+    cursor:pointer;
+  }
+  .press-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.35);
+    z-index:38;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .25s ease;
+  }
+  .press-overlay.open{opacity:1; pointer-events:auto;}
+
+  .press-widget{
+    position:fixed;
+    top:0;
+    right:0;
+    bottom:0;
+    width:min(360px, 86vw);
+    background:var(--surface);
+    border-left:1px solid var(--line);
+    z-index:39;
+    display:flex;
+    flex-direction:column;
+    transform:translateX(100%);
+    transition:transform .3s ease;
+    box-shadow:-12px 0 30px -18px rgba(0,0,0,0.5);
+  }
+  .press-widget.open{transform:translateX(0);}
+
+  .press-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    padding:16px 18px;
+    border-bottom:1px solid var(--line);
+  }
+  .press-head h2{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.8rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    font-weight:600;
+    color:var(--ink);
+  }
+  .press-updated{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.68rem;
+    color:var(--ink-faint);
+    margin-top:4px;
+  }
+  .press-close, .press-refresh{
+    background:none;
+    border:none;
+    color:var(--ink-soft);
+    cursor:pointer;
+    font-size:1rem;
+    line-height:1;
+    padding:4px;
+  }
+  .press-close:hover, .press-refresh:hover{color:var(--ink);}
+
+  .press-body{
+    flex:1;
+    overflow-y:auto;
+    padding:8px 18px 20px;
+  }
+  .press-source{margin-top:18px;}
+  .press-source:first-child{margin-top:6px;}
+  .press-source-name{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    margin-bottom:8px;
+  }
+  .press-dot{width:8px; height:8px; border-radius:50%; flex:none;}
+  .press-item{
+    display:block;
+    font-size:0.86rem;
+    line-height:1.4;
+    color:var(--ink);
+    text-decoration:none;
+    padding:7px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .press-source .press-item:last-child{border-bottom:none;}
+  .press-item:hover, .press-item:focus-visible{color:var(--accent);}
+  .press-status{
+    font-size:0.82rem;
+    color:var(--ink-faint);
+    padding:10px 0;
+  }
+
+  @media (max-width:1359.98px){
+    .press-toggle{display:flex;}
+  }
+  @media (min-width:1360px){
+    .press-overlay{display:none;}
+    .press-close{display:none;}
+    .press-widget{
+      top:96px;
+      bottom:auto;
+      right:24px;
+      width:300px;
+      max-height:calc(100vh - 130px);
+      border:1px solid var(--line);
+      border-radius:4px;
+      transform:none;
+      box-shadow:0 14px 30px -20px rgba(0,0,0,0.35);
+    }
+  }
 </style>
 
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -637,3 +774,128 @@
   </footer>
 
 </div>
+
+<button class="press-toggle" id="pressToggle" aria-label="Sajtófigyelés megnyitása">📰 Sajtófigyelés</button>
+<div class="press-overlay" id="pressOverlay"></div>
+<aside class="press-widget" id="pressWidget" aria-label="Sajtófigyelés">
+  <div class="press-head">
+    <div>
+      <h2>📰 Sajtófigyelés</h2>
+      <div class="press-updated" id="pressUpdated">Frissítés…</div>
+    </div>
+    <div style="display:flex; gap:4px;">
+      <button class="press-refresh" id="pressRefresh" aria-label="Frissítés" title="Frissítés">⟳</button>
+      <button class="press-close" id="pressClose" aria-label="Bezárás" title="Bezárás">✕</button>
+    </div>
+  </div>
+  <div class="press-body" id="pressBody">
+    <div class="press-status">Hírek betöltése…</div>
+  </div>
+</aside>
+
+<script>
+(function(){
+  var SOURCES = [
+    { name:'Index',     url:'https://index.hu/24ora/rss/',         color:'#2F6FED' },
+    { name:'Telex',     url:'https://telex.hu/rss',                color:'#1FA97A' },
+    { name:'HVG',       url:'https://hvg.hu/rss',                  color:'#E08A2C' },
+    { name:'444',       url:'https://444.hu/feed',                 color:'#8B5CF6' },
+    { name:'24.hu',     url:'https://24.hu/feed/',                 color:'#D6B92C' },
+    { name:'Portfolio', url:'https://www.portfolio.hu/rss/all.xml',color:'#2FA6E0' }
+  ];
+  var ITEMS_PER_SOURCE = 4;
+  var CACHE_KEY = 'pressWidgetCache_v1';
+  var CACHE_TTL_MS = 30 * 60 * 1000;
+
+  var toggle     = document.getElementById('pressToggle');
+  var overlay    = document.getElementById('pressOverlay');
+  var widget     = document.getElementById('pressWidget');
+  var closeBtn   = document.getElementById('pressClose');
+  var refreshBtn = document.getElementById('pressRefresh');
+  var body       = document.getElementById('pressBody');
+  var updatedEl  = document.getElementById('pressUpdated');
+
+  function openWidget(){ widget.classList.add('open'); overlay.classList.add('open'); }
+  function closeWidget(){ widget.classList.remove('open'); overlay.classList.remove('open'); }
+
+  if(toggle) toggle.addEventListener('click', openWidget);
+  if(closeBtn) closeBtn.addEventListener('click', closeWidget);
+  if(overlay) overlay.addEventListener('click', closeWidget);
+  if(refreshBtn) refreshBtn.addEventListener('click', function(){ loadPress(true); });
+
+  function readCache(){
+    try{
+      var raw = localStorage.getItem(CACHE_KEY);
+      if(!raw) return null;
+      var parsed = JSON.parse(raw);
+      if(!parsed || !parsed.ts || !parsed.data) return null;
+      if(Date.now() - parsed.ts > CACHE_TTL_MS) return null;
+      return parsed;
+    }catch(e){ return null; }
+  }
+  function writeCache(data){
+    try{ localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), data: data })); }catch(e){}
+  }
+
+  function formatTime(ts){
+    var d = new Date(ts);
+    return d.toLocaleString('hu-HU', { month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit' });
+  }
+
+  function escapeHtml(str){
+    return String(str).replace(/[&<>"']/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+
+  function render(dataBySource, ts){
+    updatedEl.textContent = 'Frissítve: ' + formatTime(ts);
+    var html = '';
+    SOURCES.forEach(function(src){
+      var items = dataBySource[src.name];
+      html += '<div class="press-source">';
+      html += '<div class="press-source-name"><span class="press-dot" style="background:' + src.color + '"></span>' + escapeHtml(src.name) + '</div>';
+      if(items && items.length){
+        items.slice(0, ITEMS_PER_SOURCE).forEach(function(item){
+          html += '<a class="press-item" href="' + item.link + '" target="_blank" rel="noopener">' + escapeHtml(item.title) + '</a>';
+        });
+      } else {
+        html += '<div class="press-status">Jelenleg nem elérhető.</div>';
+      }
+      html += '</div>';
+    });
+    body.innerHTML = html;
+  }
+
+  function fetchSource(src){
+    var endpoint = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(src.url);
+    return fetch(endpoint).then(function(res){
+      if(!res.ok) throw new Error('HTTP ' + res.status);
+      return res.json();
+    }).then(function(json){
+      if(json.status !== 'ok') throw new Error('rss2json error');
+      return json.items.map(function(it){ return { title: it.title, link: it.link }; });
+    });
+  }
+
+  function loadPress(force){
+    if(!force){
+      var cached = readCache();
+      if(cached){ render(cached.data, cached.ts); return; }
+    }
+    body.innerHTML = '<div class="press-status">Hírek betöltése…</div>';
+    var results = {};
+    var jobs = SOURCES.map(function(src){
+      return fetchSource(src).then(function(items){ results[src.name] = items; })
+        .catch(function(){ results[src.name] = null; });
+    });
+    Promise.all(jobs).then(function(){
+      var now = Date.now();
+      writeCache(results);
+      render(results, now);
+    });
+  }
+
+  loadPress(false);
+})();
+</script>
