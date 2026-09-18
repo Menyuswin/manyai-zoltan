@@ -519,6 +519,72 @@
       box-shadow:0 14px 30px -20px rgba(0,0,0,0.35);
     }
   }
+
+  /* pályafutás modal */
+  .palya-overlay{
+    position:fixed;
+    inset:0;
+    z-index:48;
+    background:rgba(0,0,0,0.45);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .25s ease;
+  }
+  .palya-overlay.open{opacity:1; pointer-events:auto;}
+
+  .palya-modal{
+    position:fixed;
+    top:50%;
+    left:50%;
+    z-index:49;
+    width:min(720px, 92vw);
+    max-height:min(84vh, 820px);
+    background:var(--surface);
+    border:1px solid var(--line);
+    box-shadow:0 30px 60px -24px rgba(0,0,0,0.5);
+    display:flex;
+    flex-direction:column;
+    opacity:0;
+    pointer-events:none;
+    transform:translate(-50%, -48%) scale(0.98);
+    transition:opacity .22s ease, transform .22s ease;
+  }
+  .palya-modal.open{
+    opacity:1;
+    pointer-events:auto;
+    transform:translate(-50%, -50%) scale(1);
+  }
+
+  .palya-modal-head{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:16px;
+    padding:28px 32px 20px;
+    border-bottom:1px solid var(--line);
+  }
+  .palya-close{
+    background:none;
+    border:none;
+    color:var(--ink-soft);
+    cursor:pointer;
+    font-size:1.2rem;
+    line-height:1;
+    padding:4px;
+    margin-top:2px;
+  }
+  .palya-close:hover, .palya-close:focus-visible{color:var(--ink);}
+
+  .palya-modal-body{
+    overflow-y:auto;
+    padding:24px 32px 32px;
+  }
+
+  @media (max-width:720px){
+    .palya-modal{width:94vw;}
+    .palya-modal-head{padding:22px 20px 16px;}
+    .palya-modal-body{padding:18px 20px 26px;}
+  }
 </style>
 
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -529,7 +595,7 @@
     <span class="topbar-name">Mányai Zoltán</span>
     <nav class="topbar-nav">
       <a href="#rolam">Rólam</a>
-      <a href="#palya">Pályafutás</a>
+      <a href="#" id="navPalya">Pályafutás</a>
       <a href="#produktumok">Produktumok</a>
       <a href="#kapcsolat">Kapcsolat</a>
     </nav>
@@ -569,11 +635,113 @@
     </div>
   </section>
 
-  <section id="palya">
+  <section id="szakteruletek">
     <div class="section-head">
-      <div class="eyebrow">Pályafutás</div>
-      <h2>A pálya állomásai</h2>
+      <div class="eyebrow">Szakterületek</div>
+      <h2>Amiben leginkább számíthatnak rám</h2>
     </div>
+    <div class="chips">
+      <span class="chip">Kríziskommunikáció</span>
+      <span class="chip">Sajtókapcsolatok</span>
+      <span class="chip">Digitális kommunikáció</span>
+      <span class="chip">Intézményi arculatépítés</span>
+      <span class="chip">Stratégiai tervezés</span>
+      <span class="chip">Csapatvezetés</span>
+      <span class="chip">MI-alapú tartalomgyártás</span>
+    </div>
+  </section>
+
+  <section id="produktumok">
+    <div class="section-head">
+      <div class="eyebrow">Produktumok</div>
+      <h2>Amit szabadidőmben építettem</h2>
+    </div>
+    <div class="cards">
+      <div class="pcard">
+        <span class="pcard-tag">Nyelvtanulás</span>
+        <h3>Angol szókincs keresztrejtvény</h3>
+        <p>Véletlenszerűen generált keresztrejtvény egy 1274 szavas angol–magyar szószedetből, négy nehézségi szinttel — minden indításnál új feladvány.</p>
+        <a class="pcard-link" href="https://menyuswin.github.io/angol-keresztrejtveny/" target="_blank" rel="noopener">Kitöltöm →</a>
+      </div>
+      <div class="pcard">
+        <span class="pcard-tag">Időjárás</span>
+        <h3>Menyusweather</h3>
+        <p>Egyoldalas időjárás-ügyelet: nemcsak a hőmérsékletet mutatja, hanem azt is, mikor kell tenni valamit — szél, csapadék, hőség, UV és tűzveszély szerint.</p>
+        <a class="pcard-link" href="https://menyuswin.github.io/Menyusweather/" target="_blank" rel="noopener">Megnyitom →</a>
+      </div>
+      <div class="pcard">
+        <span class="pcard-tag">Naptár</span>
+        <h3>Névnapnaptár</h3>
+        <p>Magyar névnapkereső: kereshet név vagy dátum szerint, a mai névnapokat kiemelve.</p>
+        <a class="pcard-link" href="https://menyuswin.github.io/nevnapnaptar/" target="_blank" rel="noopener">Megnyitom →</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="tanulmanyok">
+    <div class="twocol">
+      <div>
+        <div class="eyebrow">Tanulmányok</div>
+        <h3 style="margin-top:14px;">Végzettségek</h3>
+        <div class="edu-item">
+          <div class="role">Igazgatásszervező diploma</div>
+          <div class="org">Budapesti Közgazdaságtudományi és Államigazgatási Egyetem, Államigazgatási Kar</div>
+        </div>
+        <div class="edu-item">
+          <div class="role">MI Jövünk — Mesterséges Intelligencia alapjai (szakképzés)</div>
+          <div class="org">Gábor Dénes Egyetem</div>
+        </div>
+      </div>
+      <div>
+        <div class="eyebrow">Nyelvek</div>
+        <h3 style="margin-top:14px;">Nyelvtudás</h3>
+        <div class="lang-row">
+          <span class="lang-name">Angol</span>
+          <span class="lang-level">Társalgási szint</span>
+        </div>
+        <div class="lang-row">
+          <span class="lang-name">Német</span>
+          <span class="lang-level">Alapszint</span>
+        </div>
+        <div class="lang-row">
+          <span class="lang-name">Latin</span>
+          <span class="lang-level">Alapszint</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="kapcsolat">
+    <div class="section-head">
+      <div class="eyebrow">Kapcsolat</div>
+      <h2>Keressen bizalommal</h2>
+    </div>
+    <div class="contact-box">
+      <div>
+        <h2>Dolgozzunk együtt.</h2>
+        <p>Kommunikációs stratégia, válságkezelés vagy intézményi arculat — írjon, és rövid időn belül válaszolok.</p>
+      </div>
+      <a class="btn-mail" href="mailto:zoltan.manyai@gmail.com">Kapcsolatfelvétel e-mailben</a>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 Mányai Zoltán</span>
+    <span>Kommunikáció · Válságkezelés · Stratégia</span>
+  </footer>
+
+</div>
+
+<div class="palya-overlay" id="palyaOverlay"></div>
+<div class="palya-modal" id="palyaModal" role="dialog" aria-modal="true" aria-labelledby="palyaModalTitle">
+  <div class="palya-modal-head">
+    <div>
+      <div class="eyebrow">Pályafutás</div>
+      <h2 id="palyaModalTitle">A pálya állomásai</h2>
+    </div>
+    <button class="palya-close" id="palyaClose" aria-label="Bezárás" title="Bezárás">✕</button>
+  </div>
+  <div class="palya-modal-body">
     <div class="timeline">
 
       <div class="tl-item">
@@ -676,104 +844,34 @@
       </div>
 
     </div>
-  </section>
-
-  <section id="szakteruletek">
-    <div class="section-head">
-      <div class="eyebrow">Szakterületek</div>
-      <h2>Amiben leginkább számíthatnak rám</h2>
-    </div>
-    <div class="chips">
-      <span class="chip">Kríziskommunikáció</span>
-      <span class="chip">Sajtókapcsolatok</span>
-      <span class="chip">Digitális kommunikáció</span>
-      <span class="chip">Intézményi arculatépítés</span>
-      <span class="chip">Stratégiai tervezés</span>
-      <span class="chip">Csapatvezetés</span>
-      <span class="chip">MI-alapú tartalomgyártás</span>
-    </div>
-  </section>
-
-  <section id="produktumok">
-    <div class="section-head">
-      <div class="eyebrow">Produktumok</div>
-      <h2>Amit szabadidőmben építettem</h2>
-    </div>
-    <div class="cards">
-      <div class="pcard">
-        <span class="pcard-tag">Nyelvtanulás</span>
-        <h3>Angol szókincs keresztrejtvény</h3>
-        <p>Véletlenszerűen generált keresztrejtvény egy 1274 szavas angol–magyar szószedetből, négy nehézségi szinttel — minden indításnál új feladvány.</p>
-        <a class="pcard-link" href="https://menyuswin.github.io/angol-keresztrejtveny/" target="_blank" rel="noopener">Kitöltöm →</a>
-      </div>
-      <div class="pcard">
-        <span class="pcard-tag">Időjárás</span>
-        <h3>Menyusweather</h3>
-        <p>Egyoldalas időjárás-ügyelet: nemcsak a hőmérsékletet mutatja, hanem azt is, mikor kell tenni valamit — szél, csapadék, hőség, UV és tűzveszély szerint.</p>
-        <a class="pcard-link" href="https://menyuswin.github.io/Menyusweather/" target="_blank" rel="noopener">Megnyitom →</a>
-      </div>
-      <div class="pcard">
-        <span class="pcard-tag">Naptár</span>
-        <h3>Névnapnaptár</h3>
-        <p>Magyar névnapkereső: kereshet név vagy dátum szerint, a mai névnapokat kiemelve.</p>
-        <a class="pcard-link" href="https://menyuswin.github.io/nevnapnaptar/" target="_blank" rel="noopener">Megnyitom →</a>
-      </div>
-    </div>
-  </section>
-
-  <section id="tanulmanyok">
-    <div class="twocol">
-      <div>
-        <div class="eyebrow">Tanulmányok</div>
-        <h3 style="margin-top:14px;">Végzettségek</h3>
-        <div class="edu-item">
-          <div class="role">Igazgatásszervező diploma</div>
-          <div class="org">Budapesti Közgazdaságtudományi és Államigazgatási Egyetem, Államigazgatási Kar</div>
-        </div>
-        <div class="edu-item">
-          <div class="role">MI Jövünk — Mesterséges Intelligencia alapjai (szakképzés)</div>
-          <div class="org">Gábor Dénes Egyetem</div>
-        </div>
-      </div>
-      <div>
-        <div class="eyebrow">Nyelvek</div>
-        <h3 style="margin-top:14px;">Nyelvtudás</h3>
-        <div class="lang-row">
-          <span class="lang-name">Angol</span>
-          <span class="lang-level">Társalgási szint</span>
-        </div>
-        <div class="lang-row">
-          <span class="lang-name">Német</span>
-          <span class="lang-level">Alapszint</span>
-        </div>
-        <div class="lang-row">
-          <span class="lang-name">Latin</span>
-          <span class="lang-level">Alapszint</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="kapcsolat">
-    <div class="section-head">
-      <div class="eyebrow">Kapcsolat</div>
-      <h2>Keressen bizalommal</h2>
-    </div>
-    <div class="contact-box">
-      <div>
-        <h2>Dolgozzunk együtt.</h2>
-        <p>Kommunikációs stratégia, válságkezelés vagy intézményi arculat — írjon, és rövid időn belül válaszolok.</p>
-      </div>
-      <a class="btn-mail" href="mailto:zoltan.manyai@gmail.com">Kapcsolatfelvétel e-mailben</a>
-    </div>
-  </section>
-
-  <footer>
-    <span>© 2026 Mányai Zoltán</span>
-    <span>Kommunikáció · Válságkezelés · Stratégia</span>
-  </footer>
-
+  </div>
 </div>
+
+<script>
+(function(){
+  var navPalya      = document.getElementById('navPalya');
+  var palyaOverlay  = document.getElementById('palyaOverlay');
+  var palyaModal    = document.getElementById('palyaModal');
+  var palyaClose    = document.getElementById('palyaClose');
+
+  function openPalya(e){
+    if(e) e.preventDefault();
+    palyaOverlay.classList.add('open');
+    palyaModal.classList.add('open');
+  }
+  function closePalya(){
+    palyaOverlay.classList.remove('open');
+    palyaModal.classList.remove('open');
+  }
+
+  if(navPalya) navPalya.addEventListener('click', openPalya);
+  if(palyaClose) palyaClose.addEventListener('click', closePalya);
+  if(palyaOverlay) palyaOverlay.addEventListener('click', closePalya);
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') closePalya();
+  });
+})();
+</script>
 
 <button class="press-toggle" id="pressToggle" aria-label="Sajtófigyelés megnyitása">📰 Sajtófigyelés</button>
 <div class="press-overlay" id="pressOverlay"></div>
