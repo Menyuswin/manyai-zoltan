@@ -623,7 +623,7 @@
     <span class="topbar-name">Mányai Zoltán</span>
     <nav class="topbar-nav">
       <a href="#rolam">Rólam</a>
-      <a href="#" id="navPalya">Pályafutás</a>
+      <a href="#palyafutas" id="navPalya">Pályafutás</a>
       <a href="#media">Média-megjelenések</a>
       <a href="#produktumok">Produktumok</a>
       <a href="#kapcsolat">Kapcsolat</a>
@@ -889,27 +889,40 @@
 
 <script>
 (function(){
+  var PALYA_HASH    = '#palyafutas';
   var navPalya      = document.getElementById('navPalya');
   var palyaOverlay  = document.getElementById('palyaOverlay');
   var palyaModal    = document.getElementById('palyaModal');
   var palyaClose    = document.getElementById('palyaClose');
 
-  function openPalya(e){
+  function setHash(hash){
+    var target = hash ? hash : location.pathname + location.search;
+    if(location.hash !== (hash || '')) history.pushState(null, '', target);
+  }
+  function openPalya(e, skipHash){
     if(e) e.preventDefault();
     palyaOverlay.classList.add('open');
     palyaModal.classList.add('open');
+    if(!skipHash) setHash(PALYA_HASH);
   }
-  function closePalya(){
+  function closePalya(skipHash){
     palyaOverlay.classList.remove('open');
     palyaModal.classList.remove('open');
+    if(!skipHash) setHash(null);
   }
 
   if(navPalya) navPalya.addEventListener('click', openPalya);
-  if(palyaClose) palyaClose.addEventListener('click', closePalya);
-  if(palyaOverlay) palyaOverlay.addEventListener('click', closePalya);
+  if(palyaClose) palyaClose.addEventListener('click', function(){ closePalya(); });
+  if(palyaOverlay) palyaOverlay.addEventListener('click', function(){ closePalya(); });
   document.addEventListener('keydown', function(e){
     if(e.key === 'Escape') closePalya();
   });
+  window.addEventListener('popstate', function(){
+    if(location.hash === PALYA_HASH) openPalya(null, true);
+    else closePalya(true);
+  });
+
+  if(location.hash === PALYA_HASH) openPalya(null, true);
 })();
 </script>
 
