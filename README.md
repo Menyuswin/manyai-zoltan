@@ -2,7 +2,7 @@
 
 Statikus bemutatkozó weboldal: a főoldal (szakmai pálya röviden, szakterületek,
 tanulmányok és a saját kisebb webes produktumok — keresztrejtvény,
-időjárás-ügyelet, névnapnaptár), plusz egy önálló, saját kanonikus URL-lel
+időjárás-ügyelet, Kalendárium), plusz egy önálló, saját kanonikus URL-lel
 rendelkező aloldal a teljes pályafutás-idővonalnak.
 
 Nincs build-lépés, nincs függőség: sima HTML + megosztott CSS, a fotó külön
@@ -41,4 +41,4 @@ amelyek külön repóban élnek és GitHub Pages-en futnak:
 
 - [Angol szókincs keresztrejtvény](https://github.com/Menyuswin/angol-keresztrejtveny)
 - [Menyusweather](https://github.com/Menyuswin/Menyusweather)
-- [Névnapnaptár](https://github.com/Menyuswin/nevnapnaptar)
+- [Kalendárium](https://github.com/Menyuswin/nevnapnaptar)
