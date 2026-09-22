@@ -114,9 +114,21 @@
     text-transform:uppercase;
     font-weight:600;
   }
-  .topbar-nav{display:flex; gap:20px; font-size:0.85rem;}
-  .topbar-nav a{text-decoration:none; color:var(--ink-soft);}
-  .topbar-nav a:hover, .topbar-nav a:focus-visible{color:var(--ink);}
+  .topbar-nav{display:flex; gap:8px; flex-wrap:wrap;}
+  .topbar-nav a{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.03em;
+    text-transform:uppercase;
+    text-decoration:none;
+    color:var(--ink-soft);
+    border:1px solid var(--line);
+    border-radius:2px;
+    padding:7px 12px;
+    transition:border-color .15s ease, color .15s ease;
+  }
+  .topbar-nav a:hover, .topbar-nav a:focus-visible{ color:var(--ink); border-color:var(--accent); }
+  .topbar-nav a[aria-current="page"]{ color:var(--accent); border-color:var(--accent); }
   .topbar-cta{
     font-family:'IBM Plex Mono', monospace;
     font-size:0.75rem;
