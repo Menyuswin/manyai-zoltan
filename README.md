@@ -1,11 +1,12 @@
 # Mányai Zoltán — bemutatkozó oldal
 
-Egyoldalas, statikus bemutatkozó weboldal: szakmai pálya, szakterületek,
-tanulmányok és a saját kisebb webes produktumok (keresztrejtvény,
-időjárás-ügyelet, Kalendárium) egy helyen.
+Statikus bemutatkozó weboldal: a főoldal (szakmai pálya röviden, szakterületek,
+tanulmányok és a saját kisebb webes produktumok — keresztrejtvény,
+időjárás-ügyelet, Kalendárium), plusz egy önálló, saját kanonikus URL-lel
+rendelkező aloldal a teljes pályafutás-idővonalnak.
 
-Nincs build-lépés, nincs függőség: sima HTML + CSS, a fotó külön fájlként
-mellékelve.
+Nincs build-lépés, nincs függőség: sima HTML + megosztott CSS, a fotó külön
+fájlként mellékelve.
 
 A jobb oldali sávban futó "Sajtófigyelés" widget kliensoldali JavaScripttel,
 oldalbetöltéskor kérdezi le 6 hírportál (Index, Telex, HVG, 444, 24.hu,
@@ -26,7 +27,10 @@ A `file://` megnyitás is működik.
 
 ## Szerkezet
 
-- `index.html` — az oldal teljes tartalma és stílusa
+- `index.html` — a főoldal tartalma
+- `style.css` — a két oldal (főoldal + Pályafutás) közös stíluslapja
+- `palyafutas/index.html` — a Pályafutás önálló, saját canonical taggel
+  ellátott aloldala (a teljes idővonal)
 - `photo.jpg` — profilfotó
 - `header.jpg` — teljes szélességű fejléc-banner ("Dialogus aperit portas")
 
