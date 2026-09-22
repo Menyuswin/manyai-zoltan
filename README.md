@@ -2,7 +2,7 @@
 
 Egyoldalas, statikus bemutatkozó weboldal: szakmai pálya, szakterületek,
 tanulmányok és a saját kisebb webes produktumok (keresztrejtvény,
-időjárás-ügyelet, névnapnaptár) egy helyen.
+időjárás-ügyelet, Kalendárium) egy helyen.
 
 Nincs build-lépés, nincs függőség: sima HTML + CSS, a fotó külön fájlként
 mellékelve.
@@ -37,4 +37,4 @@ amelyek külön repóban élnek és GitHub Pages-en futnak:
 
 - [Angol szókincs keresztrejtvény](https://github.com/Menyuswin/angol-keresztrejtveny)
 - [Menyusweather](https://github.com/Menyuswin/Menyusweather)
-- [Névnapnaptár](https://github.com/Menyuswin/nevnapnaptar)
+- [Kalendárium](https://github.com/Menyuswin/nevnapnaptar)
