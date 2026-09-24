@@ -9,6 +9,8 @@
     --accent-ink:#FFFFFF;
     --line:#DBD7CC;
     --focus:#1C1F26;
+    --substack:#FF6719;
+    --substack-ink:#FFFFFF;
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
@@ -405,6 +407,8 @@
     transition:background .15s ease, color .15s ease;
   }
   .btn-outline:hover, .btn-outline:focus-visible{background:var(--accent); color:var(--accent-ink);}
+  .btn-substack{color:var(--substack); border-color:var(--substack);}
+  .btn-substack:hover, .btn-substack:focus-visible{background:var(--substack); color:var(--substack-ink);}
 
   footer{
     padding-block:28px 40px;
