@@ -18,6 +18,8 @@ Then open `http://localhost:8000`. Opening the files directly via `file://` also
 
 Deployment is GitHub Pages serving directly from the `main` branch root — a push to `main` is a push to production. Live URL: `https://menyuswin.github.io/manyai-zoltan/`.
 
+Any `<img>` you give both `width`/`height` HTML attributes AND a CSS `aspect-ratio` needs an explicit `height:auto` in that same CSS rule. Without it, the HTML `height` attribute is mapped to a low-priority presentational `height` declaration that nothing overrides, so the browser treats height as already "definite" and silently ignores `aspect-ratio` (its `auto <ratio>` value only kicks in when a dimension is genuinely unconstrained). `.portrait-frame img` shipped without `height:auto` for a while — the photo rendered at its literal attribute height (609px) instead of the intended 5:6 crop, which was only really visible once viewed at a narrow mobile width (at wider widths `object-fit:cover` just showed a slightly taller crop, easy to miss). Check for this pattern whenever adding a new sized image with an `aspect-ratio` rule.
+
 Test mobile layouts with real device emulation (Playwright `devices['iPhone 13']` / `devices['iPhone SE']`), not just a narrow fixed viewport — a plain `{width: 375}` viewport ignores whether `<meta name="viewport">` is present. That meta tag was missing once and every mobile media query silently never fired on real phones while fixed-viewport tests passed.
 
 ## Head / SEO / link previews
