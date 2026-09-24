@@ -388,7 +388,7 @@
   .btn-mail:hover, .btn-mail:focus-visible{filter:brightness(1.08);}
   .contact-actions{display:flex; flex-wrap:wrap; gap:12px;}
   .nowrap{white-space:nowrap;}
-  .btn-linkedin{
+  .btn-outline{
     display:inline-flex;
     align-items:center;
     gap:9px;
@@ -403,7 +403,7 @@
     white-space:nowrap;
     transition:background .15s ease, color .15s ease;
   }
-  .btn-linkedin:hover, .btn-linkedin:focus-visible{background:var(--accent); color:var(--accent-ink);}
+  .btn-outline:hover, .btn-outline:focus-visible{background:var(--accent); color:var(--accent-ink);}
 
   footer{
     padding-block:28px 40px;
@@ -439,7 +439,7 @@
     .contact-box{flex-direction:column; align-items:flex-start;}
     .btn-mail{white-space:normal; text-align:center;}
     .contact-actions{flex-direction:column; align-self:stretch;}
-    .btn-linkedin{justify-content:center;}
+    .btn-outline{justify-content:center;}
   }
 
   @media (prefers-reduced-motion: no-preference){
