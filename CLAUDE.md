@@ -18,6 +18,17 @@ Then open `http://localhost:8000`. Opening the files directly via `file://` also
 
 Deployment is GitHub Pages serving directly from the `main` branch root — a push to `main` is a push to production. Live URL: `https://menyuswin.github.io/manyai-zoltan/`.
 
+Test mobile layouts with real device emulation (Playwright `devices['iPhone 13']` / `devices['iPhone SE']`), not just a narrow fixed viewport — a plain `{width: 375}` viewport ignores whether `<meta name="viewport">` is present. That meta tag was missing once and every mobile media query silently never fired on real phones while fixed-viewport tests passed.
+
+## Head / SEO / link previews
+
+Both pages carry, in their head: `<html lang="hu">`, the viewport meta, canonical, favicons, Open Graph + `twitter:card` tags, and a JSON-LD block (`ProfilePage` → `Person` with `@id …/#person` on the homepage; `WebPage` + `BreadcrumbList` pointing `about` at that same `@id` on `palyafutas/`). Keep the two pages consistent when touching any of these; a new page should get the same set.
+
+- `og:image` must be an **absolute** URL (`https://menyuswin.github.io/manyai-zoltan/og-image.jpg`) — relative paths break previews in Signal/WhatsApp/LinkedIn. Messaging apps cache previews aggressively; after changing the image, change its filename (and the tags) to bust caches.
+- `og-image.jpg` (1200×630) was composed from a background-removed portrait (rembg, `isnet-general-use` model) on a dark navy gradient with the site's gold accent, rendered from HTML with Playwright. The face sits near the horizontal center on purpose — WhatsApp and some clients center-crop to a square thumbnail. The site's Google Fonts are not reachable from the sandbox; for faithful renders load them locally from npm `@fontsource/{newsreader,public-sans,ibm-plex-mono}`.
+- `sameAs` in the Person JSON-LD holds the LinkedIn profile URL (percent-encoded, tracking params stripped). Add other official profiles there, not in visible markup, if asked.
+- There is intentionally **no `robots.txt`**: crawlers only read it at the domain root (`menyuswin.github.io/robots.txt`), and this is a project site under `/manyai-zoltan/`, so one here would be ignored. `sitemap.xml` is submitted directly in Google Search Console instead; bump its `<lastmod>` dates when page content changes meaningfully.
+
 ## Architecture
 
 **Two HTML pages sharing one stylesheet**, not a single-page app:
