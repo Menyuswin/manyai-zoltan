@@ -33,7 +33,7 @@ A `file://` megnyitás is működik.
   ellátott aloldala (a teljes idővonal)
 - `photo.jpg` — profilfotó
 - `header.jpg` — teljes szélességű fejléc-banner ("Dialogus aperit portas")
-- `og-image.jpg` — 1200×630-as link-előnézeti kép (Signal, WhatsApp,
+- `og-image-v2.jpg` — 1200×630-as link-előnézeti kép (Signal, WhatsApp,
   LinkedIn, Facebook stb.), az Open Graph tagek hivatkoznak rá
 - `favicon-96.png`, `favicon-32.png`, `apple-touch-icon.png` — "MZ" monogram ikonok
 - `sitemap.xml` — a két oldal listája a Google Search Console-nak
